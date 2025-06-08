@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
+import SwitchPage from "../components/SwitchPage";
 
 function Login() {
   const [formDate, setFormData] = useState({
@@ -56,6 +57,8 @@ function Login() {
           <div className="text-center border-b">
             <h1 className="text-3xl font-faseh">{t("Welcome Again")}</h1>
             <h1 className="text-3xl font-faseh">{t("Login")}</h1>
+
+            <SwitchPage />
           </div>
 
           <FormGroup

@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
+import SwitchPage from "../components/SwitchPage";
 
 function Register() {
   const [formDate, setFormData] = useState({
@@ -42,7 +43,7 @@ function Register() {
   };
 
   return (
-    <section className="login-section flex justify-center items-center h-[80vh] w-full">
+    <section className="login-section flex justify-center items-center w-full">
       <div className="login-content flex justify-center w-[80%]">
         <form
           onSubmit={handleRegister}
@@ -51,6 +52,8 @@ function Register() {
           <div className="text-center border-b">
             {/* <h1 className="text-3xl font-faseh">{t("Welcome Again")}</h1> */}
             <h1 className="text-3xl font-faseh">{t("Register")}</h1>
+
+            <SwitchPage />
           </div>
 
           <FormGroup
@@ -95,17 +98,13 @@ function Register() {
             placeholder={"Enter Your Re-enter Password"}
           />
 
-          <div className="flex justify-between">
-            <div className="flex gap-1">
-              <input type="checkbox" name="check" id="check" />
-              <label className="text-sm" htmlFor="check">
-                {t("Check Me")}
-              </label>
-            </div>
-            <h1 className="text-sm text-blue-400 underline hover:no-underline cursor-pointer">
-              {t("Forget Password?")}
-            </h1>
+          <div className="flex gap-1">
+            <input required type="checkbox" name="agreement" id="agreement" />
+            <label className="text-sm" htmlFor="agreement">
+              {t("I agree")}
+            </label>
           </div>
+
           <button className="bg-black hover:bg-[#333] w-full p-2 px-3 rounded-xl text-white cursor-pointer transition-all duration-200">
             {t("Register")}
           </button>
