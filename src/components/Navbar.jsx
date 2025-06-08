@@ -14,7 +14,7 @@ function Navbar(props) {
       <div className="nav-content flex items-center justify-between w-[95%]">
         <Link to={"/"}>
           <div className="logo">
-            <img src={"./src/assets/logo.png"} width={100} alt="s" />
+            <img src={"/logo.png"} width={100} alt="s" />
           </div>
         </Link>
         <ul className=" lg:flex hidden gap-10 rounded-b-3xl justify-center items-center h-full w-[77%] text-2xl text-white bg-black/80 z-10 ">
