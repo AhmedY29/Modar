@@ -1,1 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+
+@font-face {
+  font-family: Rubik;
+  src: url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+}
+
+@font-face {
+  font-family: Faseh;
+  src: url('../src/assets/fonts/DG\ Faseh-Regular.ttf');
+}
+
+@font-face {
+  font-family: Faseh-bold;
+  src: url('../src/assets/fonts/DG\ Faseh-Bold.ttf');
+}
+
 @import "tailwindcss";
+
+
+@theme{
+  --font-rubik: Rubik, 'sans-serif';
+  --font-faseh: Faseh, 'sans-serif';
+  --font-faseh-bold: Faseh, 'sans-serif';
+}

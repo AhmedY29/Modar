@@ -1,0 +1,32 @@
+{
+    "Get Started": "ابـدأ الان",
+    "Home": "الصفحة الرئيسية",
+    "Contact":"تواصل معنا",
+    "About":"من نحن",
+    "How": "طريقة العمل",
+
+    "Hero headline":"فكرتك جاهزة؟ خلها مُــدار",
+    "Hero subtitle":"مُدار هو المكان اللي ترفع فيه فكرتك، تعرف رأي مشرفك، وتشوف كل شي بوضوح.",
+
+    "Welcome Again": "مرحبًا من جديد",
+    "Login":"تسجيل دخول",
+    "Register":"تسجيل جديد",
+    
+    "Email":"البريد الالكتروني",
+    "Username":"الاسم",
+    "Password":"كلمة المرور",
+    "Re-enter Password":"تأكيد كلمة المرور",
+
+    "Enter Your Email": "أدخل البريد الالكتروني",
+    "Enter Your Username": "أدخل اسمك",
+    "Enter Your Re-enter Password": "تأكيد كلمة المرور",
+    "Enter Your Password": "أدخل كلمة المرور",
+    "Forget Password?": "نسيت كلمة المرور؟",
+    "Check Me": "تذكرني",
+
+    "Passwords Doesn't Match":"كلمة المرور غير متطابقة",
+    "Email or Password Invalid": "خطأ في البريد الالكتروني او كلمة المرور",
+    "Login successfully":"تم تسجيل الدخول بنجاح",
+    "Register successfully": "تم التسجيل بنجاح"
+    
+}
