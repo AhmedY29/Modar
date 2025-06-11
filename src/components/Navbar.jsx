@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
+import { getUsers, logout } from "../redux/authSlice";
 
 function Navbar(props) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const users = useSelector((state) => state.auth.users);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, []);
+  console.log(users, "users");
+  console.log(user, "user");
 
   const handleChangeLan = (lng) => {
     props.changeLanguage(lng);
   };
   return (
-    <nav className="nav-section sticky top-0 w-full flex justify-center bg-linear-to-b from-white/80 to-white/30 backdrop-blur-lg z-10">
+    <nav className="nav-section sticky top-0 w-full flex justify-center bg-linear-to-b from-white/80 to-white/30 backdrop-blur-lg pb-2 z-10">
       <div className="nav-content flex items-center justify-between w-[95%]">
-        <Link to={"/"}>
+        <Link to={user ? "/home" : "/"}>
           <div className="logo">
             <img src={"/logo.png"} width={100} alt="s" />
           </div>
@@ -43,22 +55,70 @@ function Navbar(props) {
             <li>{t("Contact")}</li>
           </a>
         </ul>
-        <div className="btn flex gap-3 lg:w-[15%]">
-          <button className="bg-black hover:bg-[#333] w-fit p-2 px-3 rounded-xl text-white cursor-pointer transition-all duration-200">
-            N
-          </button>
+        <div className="btn flex items-center gap-3 lg:w-[15%]">
           <button
             onClick={() => handleChangeLan(props.lng == "ar" ? "en" : "ar")}
             className="bg-black hover:bg-[#333] w-fit p-2 px-3 rounded-xl text-white cursor-pointer transition-all duration-200"
           >
             {props.lng == "ar" ? "En" : "Ar"}
           </button>
-          <button
-            onClick={() => navigate("/auth/login")}
-            className="bg-black hover:bg-[#333] w-full p-2 px-3 rounded-xl text-white cursor-pointer transition-all duration-200"
-          >
-            {t("Get Started")}
-          </button>
+          {user ? (
+            <div className="relative">
+              <div onClick={() => setOpen(!open)}>
+                <h1 className="cursor-pointer line-clamp-1">
+                  {t("Welcome")}, {user.username} 👋🏻
+                </h1>
+              </div>
+              <div
+                className={`${
+                  open ? "flex" : "hidden"
+                } flex-col items-center gap-3 w-full rounded-md overflow-hidden shadow absolute top-8 bg-amber-200`}
+              >
+                <ul className="w-full text-center">
+                  <li className="bg-black text-white dark:bg-dark-bg hover:bg-[#333] w-full border-b cursor-pointer p-2 px-3 transition-all duration-200">
+                    Light Mode
+                  </li>
+                  <li className="bg-black text-white hover:bg-[#333] w-full border-b cursor-pointer p-2 px-3 transition-all duration-200">
+                    Profile
+                  </li>
+                  <li
+                    className="bg-black text-white hover:bg-[#333] w-full border-b cursor-pointer p-2 px-3 transition-all duration-200"
+                    onClick={() => {
+                      dispatch(logout());
+                      navigate("/");
+                    }}
+                  >
+                    {t("Logout")}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            <>
+              <button className="bg-black hover:bg-[#333] w-fit p-2 px-3 rounded-xl text-white cursor-pointer transition-all duration-200">
+                N
+              </button>
+
+              {user ? (
+                <button
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/");
+                  }}
+                  className="bg-black hover:bg-[#333] w-full p-2 px-3 rounded-xl text-white cursor-pointer transition-all duration-200"
+                >
+                  {t("Logout")}
+                </button>
+              ) : (
+                <button
+                  onClick={() => navigate("/auth/login")}
+                  className="bg-black hover:bg-[#333] w-full p-2 px-3 rounded-xl text-white cursor-pointer transition-all duration-200"
+                >
+                  {t("Get Started")}
+                </button>
+              )}
+            </>
+          )}
         </div>
       </div>
     </nav>

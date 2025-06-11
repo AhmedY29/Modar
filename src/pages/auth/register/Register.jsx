@@ -6,6 +6,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
 import SwitchPage from "../components/SwitchPage";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../../../redux/authSlice";
 
 function Register() {
   const [formDate, setFormData] = useState({
@@ -21,6 +23,8 @@ function Register() {
   window.document.title =
     lng == "ar" ? "مُدار | تسجيل جديد" : "Modar | Register";
 
+  const isLoading = useSelector((state) => state.auth.isLoading);
+  const dispatch = useDispatch();
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
 
@@ -32,12 +36,14 @@ function Register() {
       toast.error(t("Passwords Doesn't Match"));
       return;
     }
-    axios.post(`https://68457ab9fc51878754db71db.mockapi.io/users`, {
-      username: formDate.username,
-      email: formDate.email,
-      password: formDate.password,
-      role: "Student",
-    });
+    // axios.post(`https://68457ab9fc51878754db71db.mockapi.io/users`, {
+    //   username: formDate.username,
+    //   email: formDate.email,
+    //   password: formDate.password,
+    //   role: "Student",
+    // });
+
+    dispatch(register(formDate));
     toast.success(t("Register successfully"));
     navigate("/auth/login");
   };

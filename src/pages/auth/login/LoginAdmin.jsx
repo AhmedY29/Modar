@@ -9,7 +9,7 @@ import SwitchPage from "../components/SwitchPage";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers, login } from "../../../redux/authSlice";
 
-function Login() {
+function LoginAdmin() {
   const [formDate, setFormData] = useState({
     email: "",
     password: "",
@@ -18,18 +18,15 @@ function Login() {
   const { t } = useTranslation();
   let lng = Cookies.get("i18next") || "ar";
   window.document.title =
-    lng == "ar" ? "مُدار | تسجيل الدخول" : "Modar | Login";
+    lng == "ar" ? "مُدار  | تسجيل دخول المشرفين" : "Modar | Admin Login";
 
   const users = useSelector((state) => state.auth.users);
-  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("useEffect");
     dispatch(getUsers());
   }, []);
   console.log(users, "users");
-  console.log(user, "user");
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -49,14 +46,15 @@ function Login() {
       return;
     }
 
-    if (userExist.role == "admin") {
-      navigate("/auth/login_admin_modar_2977");
+    if (userExist.role != "admin") {
+      toast.error(t("This Page For Admin only"));
+      navigate("/auth/login");
       return;
     }
 
     toast.success(t("Login successfully"));
     dispatch(login(userExist));
-    navigate("/home");
+    navigate("/admin_dashboard_modar_2977");
   };
 
   return (
@@ -68,7 +66,7 @@ function Login() {
         >
           <div className="text-center border-b">
             <h1 className="text-3xl font-faseh">{t("Welcome Again")}</h1>
-            <h1 className="text-3xl font-faseh">{t("Login")}</h1>
+            <h1 className="text-3xl font-faseh">{t("Admin Login")}</h1>
 
             <SwitchPage />
           </div>
@@ -113,4 +111,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginAdmin;

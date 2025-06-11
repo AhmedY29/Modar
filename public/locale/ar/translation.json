@@ -10,6 +10,7 @@
 
     "Welcome Again": "مرحبًا من جديد",
     "Login":"تسجيل دخول",
+    "Admin Login":"تسجيل دخول المشرفين",
     "Register":"تسجيل جديد",
     
     "Email":"البريد الالكتروني",
@@ -27,6 +28,10 @@
     "Passwords Doesn't Match":"كلمة المرور غير متطابقة",
     "Email or Password Invalid": "خطأ في البريد الالكتروني او كلمة المرور",
     "Login successfully":"تم تسجيل الدخول بنجاح",
-    "Register successfully": "تم التسجيل بنجاح"
+    "Register successfully": "تم التسجيل بنجاح",
+    "This Page For Admin only": "هذه الصفحة للمشرفين فقط",
+    "Logout": "تسجيل خروج",
+
+    "Welcome": "مرحبًا"
     
 }
