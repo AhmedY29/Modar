@@ -28,6 +28,17 @@ export const register = createAsyncThunk("auth/register", async (data) => {
     }
   );
 });
+export const addTeacher = createAsyncThunk("auth/addTeacher", async (data) => {
+  let res = await axios.post(
+    "https://68457ab9fc51878754db71db.mockapi.io/users",
+    {
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      role: "teacher",
+    }
+  );
+});
 
 export const login = createAsyncThunk("auth/login", async (data) => {
   return data;
@@ -65,6 +76,17 @@ export const authSlice = createSlice({
       });
 
     builder
+      .addCase(addTeacher.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(addTeacher.fulfilled, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(addTeacher.rejected, (state) => {
+        state.isLoading = false;
+      });
+
+    builder
       .addCase(login.pending, (state, action) => {
         state.isLoading = true;
       })
@@ -95,7 +117,5 @@ export const authSlice = createSlice({
       });
   },
 });
-
-export const { getAllUsers } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -9,7 +9,7 @@ import { changeTheme } from "../redux/themeSlice";
 import { LuSunMedium } from "react-icons/lu";
 import { FaRegMoon } from "react-icons/fa";
 
-function Navbar(props) {
+function MobileTopNav(props) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const users = useSelector((state) => state.auth.users);
@@ -28,7 +28,7 @@ function Navbar(props) {
     props.changeLanguage(lng);
   };
   return (
-    <nav className="nav-section sticky top-0 w-full flex justify-center bg-linear-to-b from-white/80 to-white/30 backdrop-blur-lg pb-2 z-10">
+    <nav className="nav-section sticky top-0 w-full flex lg:hidden justify-center bg-linear-to-b from-white/80 to-white/30 backdrop-blur-lg pb-2 z-10">
       <div className="nav-content flex items-center justify-between w-[95%]">
         <Link to={user ? "/home" : "/"}>
           <div className="logo">
@@ -137,4 +137,4 @@ function Navbar(props) {
   );
 }
 
-export default Navbar;
+export default MobileTopNav;

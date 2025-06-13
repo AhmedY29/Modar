@@ -32,6 +32,45 @@
     "This Page For Admin only": "هذه الصفحة للمشرفين فقط",
     "Logout": "تسجيل خروج",
 
-    "Welcome": "مرحبًا"
+    "Welcome": "مرحبًا",
+
+    "General":"معلومات عامة",
+    "Teachers": "المعلمين",
+    "Students": "الطلاب",
+    "Teams": "المجموعات",
+    "Ideas": "الافكار",
+    "Task Management": "إدارة المهام",
+    "Team Members": "اعضاء الفريق",
+    "Profile": "الملف الشخصي",
+
+    "Supervisor Name": "اسم المشرف",
+    "Team Member count": "عدد اعضاء الفريق",
+    "Add": "أضافة",
+    "Select": "اختر",
+    "Web App": "تطبيق ويب",
+    "Mobile App": "تطبيق هاتف",
+    "Idea": "عنوان الفكرة",
+    "Add Idea": "اضف فكرة",
+    "Enter Your Idea": "أدخل عنوان الفكرة",
+    "Description Idea": " وصف الفكرة",
+    "Enter Description Idea": "أدخل وصف الفكرة...",
+    "Search": "أبحث عن فكرة",
+    "Search Idea": "اكتب عنوان الفكرة",
+    "Pending": "قيد الانتظار",
+    "Accept": "مقبولة",
+    "rejected": "مرفوضة",
+
+    "Delete": "حذف",
+    "Details": "التفاصيل",
+    "Teams Count": "عدد المعلمين الحالي",
+    "Teachers Count": "عدد المعلمين الحالي",
+    "Students Count": "عدد الطلاب الحالي",
+    "Add Team": "اضافة مجموعة",
+    "Add Student": "اضافة طالب",
+    "Add Teacher": "اضافة معلم",
+    "Team Member": "اعضاء الفريق",
+    "Team Count": "عدد اعضاء الفريق"
+
+
     
 }

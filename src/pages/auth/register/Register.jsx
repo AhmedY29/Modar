@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
 import SwitchPage from "../components/SwitchPage";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../../redux/authSlice";
+import { getUsers, register } from "../../../redux/authSlice";
 
 function Register() {
   const [formDate, setFormData] = useState({
@@ -36,6 +36,10 @@ function Register() {
       toast.error(t("Passwords Doesn't Match"));
       return;
     }
+    if (!formDate.email.includes("tuwaiq")) {
+      toast.error(t("Email Invalid"));
+      return;
+    }
     // axios.post(`https://68457ab9fc51878754db71db.mockapi.io/users`, {
     //   username: formDate.username,
     //   email: formDate.email,
@@ -43,7 +47,7 @@ function Register() {
     //   role: "Student",
     // });
 
-    dispatch(register(formDate));
+    dispatch(register(formDate)).then(() => dispatch(getUsers()));
     toast.success(t("Register successfully"));
     navigate("/auth/login");
   };

@@ -25,9 +25,8 @@ function Login() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("useEffect");
     dispatch(getUsers());
-  }, []);
+  }, [formDate.email]);
   console.log(users, "users");
   console.log(user, "user");
 
@@ -56,7 +55,7 @@ function Login() {
 
     toast.success(t("Login successfully"));
     dispatch(login(userExist));
-    navigate("/home");
+    navigate("/home/ideas");
   };
 
   return (

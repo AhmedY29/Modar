@@ -1,5 +1,6 @@
 import {
   createBrowserRouter,
+  Link,
   Navigate,
   Outlet,
   RouterProvider,
@@ -18,6 +19,13 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import SideBar from "../components/SideBar";
 import Ideas from "../pages/home/components/Ideas";
+import Teams from "../pages/adminDashboard/components/Teams";
+import Teachers from "../pages/adminDashboard/components/Teachers";
+import Students from "../pages/adminDashboard/components/Students";
+import Profile from "../pages/profile/Profile";
+import TeamMember from "../pages/home/components/TeamMember";
+import MobileNav from "../components/MobileNav";
+import MobileTopNav from "../components/MobileTopNav";
 
 const Layout = () => {
   const { t, i18n } = useTranslation();
@@ -49,11 +57,34 @@ const HomeLayout = () => {
   }, [lng]);
   return (
     <ProtectRoute>
+      <MobileTopNav changeLanguage={changeLanguage} lng={lng} />
       <div className="font-rubik flex w-full">
         <SideBar changeLanguage={changeLanguage} lng={lng} />
         <Outlet />
       </div>
+      <MobileNav />
     </ProtectRoute>
+  );
+};
+const AdminLayout = () => {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+  let lng = Cookies.get("i18next") || "ar";
+  useEffect(() => {
+    window.document.dir = i18n.dir();
+  }, [lng]);
+  return (
+    <ProtectAdminPages>
+      <MobileTopNav changeLanguage={changeLanguage} lng={lng} />
+      <div className="font-rubik flex w-full">
+        <SideBar changeLanguage={changeLanguage} lng={lng} />
+        <Outlet />
+      </div>
+      <MobileNav />
+    </ProtectAdminPages>
   );
 };
 
@@ -77,6 +108,20 @@ const ProtectAdminPages = ({ children }) => {
   return children;
 };
 
+const ErrorPage = () => {
+  return (
+    <div className="flex flex-col justify-center items-center h-screen w-screen">
+      <h1>Page Not Found!</h1>
+      <p>We Will Redirect You to home</p>
+      <Link to={"/"}>
+        <button className="bg-black hover:bg-[#333] w-fit p-2 px-3 rounded-xl text-white cursor-pointer transition-all duration-200">
+          Click Hero
+        </button>
+      </Link>
+    </div>
+  );
+};
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -85,14 +130,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
-      },
-      {
-        path: "/admin_dashboard_modar_2977",
-        element: (
-          <ProtectAdminPages>
-            <AdminDashboard />
-          </ProtectAdminPages>
-        ),
       },
       {
         path: "/auth",
@@ -114,9 +151,28 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "/admin_dashboard_modar_2977",
+    element: <AdminLayout />,
+    children: [
+      { path: "/admin_dashboard_modar_2977/info", element: <AdminDashboard /> },
+      { path: "/admin_dashboard_modar_2977/teams", element: <Teams /> },
+      { path: "/admin_dashboard_modar_2977/teachers", element: <Teachers /> },
+      { path: "/admin_dashboard_modar_2977/students", element: <Students /> },
+      { path: "/admin_dashboard_modar_2977/profile", element: <Profile /> },
+    ],
+  },
+  {
     path: "/home",
     element: <HomeLayout />,
-    children: [{ path: "/home/ideas", element: <Ideas /> }],
+    children: [
+      { path: "/home/ideas", element: <Ideas /> },
+      { path: "/home/profile", element: <Profile /> },
+      { path: "/home/team-member", element: <TeamMember /> },
+    ],
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 
