@@ -43,7 +43,7 @@ function Profile() {
       <div className="w">
         <div className="flex flex-col md:flex-row gap-3 justify-between text-2xl font-rubik w-full">
           <div className="bg-white/40 rounded-xl p-5 w-full">
-            <h1 className="text-sm">Teachers </h1>
+            <h1 className="text-sm">{t(user.role)} </h1>
             <div className="flex items-center gap-3">
               <h1 className="rounded-full bg-green-300 text-green-900/60 w-10 h-10 flex justify-center items-center">
                 {user.username[0]}
@@ -59,7 +59,7 @@ function Profile() {
             <h1 className="text-2xl">Students</h1>
             <button
               onClick={() => setOpenDialog(true)}
-              className={`flex items-center gap-2 bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 px-10 p-1 text-white cursor-pointer ${
+              className={`flex items-center gap-2 bg-black hover:bg-[#333] px-10 p-1 text-white cursor-pointer ${
                 theme == "dark" ? "dark" : ""
               } rounded-xl transition-all duration-200 `}
             >

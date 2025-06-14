@@ -23,6 +23,7 @@ function TeamMember() {
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
   const [myTeam, setMyTeam] = useState({});
+  const [teamId, setTeamId] = useState(0);
   const { t } = useTranslation();
   const [formDate, setFormData] = useState({
     username: "",
@@ -76,8 +77,19 @@ function TeamMember() {
   );
 
   useEffect(() => {
-    setMyTeam(teams.find((team) => team.students?.includes(user.username)));
+    setMyTeam(
+      teams.find((team) => team.students?.includes(user.username)) ??
+        teams.find((team) => team.supervisor == user.username)
+    );
   }, [teams]);
+
+  useEffect(() => {
+    if (user.role == "teacher") {
+      setMyTeam(
+        teams.filter((team) => team.supervisor == user.username)[teamId]
+      );
+    }
+  }, [user, teams, teamId]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -92,19 +104,59 @@ function TeamMember() {
         <div className="flex flex-col md:flex-row gap-3 justify-between text-2xl font-rubik w-full">
           <div className="bg-white/40 rounded-xl p-5 w-full">
             <h1 className="text-sm">{t("Team Count")}</h1>
-            <h1 className="">
-              {users.filter((user) => user.role == "teacher")?.length}
-            </h1>
+            <h1 className="">{myTeam?.students?.length}</h1>
           </div>
         </div>
       </div>
       <div className="ideas-content">
+        {user?.role == "teacher" ? (
+          <>
+            <div className="flex flex-col bg-white/40 p-2 rounded-xl ">
+              <label htmlFor="teams">{t("Select Team")}</label>
+              <select
+                className="border rounded-xl p-1 px-2"
+                onChange={(e) => setTeamId(e.target.value)}
+                name="teams"
+                id=""
+              >
+                {teams
+                  ?.filter((team) => team.supervisor == user.username)
+                  ?.map((team, index) => (
+                    <option value={index}>
+                      {t("Team")}
+                      {team.students.map((e) => (
+                        <h1 className="flex gap-2"> {e} </h1>
+                      ))}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div
+              className={`flex w-full rounded-xl ${
+                theme == "dark" ? "dark" : ""
+              }`}
+            >
+              <div className="w-full">
+                {/* <FormGroup
+                label={"Search"}
+                type={"text"}
+                placeholder={"Search Idea"}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              /> */}
+              </div>
+            </div>
+          </>
+        ) : (
+          ""
+        )}
+
         <div className="ideas bg-white/40 p-2 rounded-xl">
           <div className="flex justify-between mb-2">
             <h1 className="text-2xl">{t("Team Member")}</h1>
             {/* <button
               onClick={() => setOpenDialog(true)}
-              className={`flex items-center gap-2 bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 px-10 p-1 text-white cursor-pointer ${
+              className={`flex items-center gap-2 bg-black hover:bg-[#333] px-10 p-1 text-white cursor-pointer ${
                 theme == "dark" ? "dark" : ""
               } rounded-xl transition-all duration-200 `}
             >
@@ -140,7 +192,7 @@ function TeamMember() {
                   </div>
                   <div className="details">
                     <button
-                      className={`bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white ${
+                      className={`bg-black hover:bg-[#333] p-2 px-3 text-white ${
                         theme == "dark" ? "dark" : ""
                       } rounded-xl cursor-pointer transition-all duration-200`}
                     >

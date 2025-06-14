@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const initialState = {
   teams: [],
@@ -31,6 +32,32 @@ export const addIdea = createAsyncThunk("team/addIdea", async (data) => {
     }
   );
 });
+
+// UPDATE IT
+export const updateIdeaStatus = createAsyncThunk(
+  "team/updateIdeaStatus",
+  async (data) => {
+    console.log(data);
+    const res = await axios.get(
+      `https://68457ab9fc51878754db71db.mockapi.io/teams/${data.teamId}`
+    );
+
+    const existingTeam = res.data;
+
+    const updatedIdeas = (existingTeam.ideas || []).map((idea) =>
+      idea.ideaId === data.ideaId ? data : idea
+    );
+
+    const updateRes = await axios.put(
+      `https://68457ab9fc51878754db71db.mockapi.io/teams/${data.teamId}`,
+      {
+        ...existingTeam,
+        ideas: updatedIdeas,
+      }
+    );
+  }
+);
+
 export const addTeam = createAsyncThunk("team/addTeam", async (data) => {
   axios.post("https://68457ab9fc51878754db71db.mockapi.io/teams", {
     supervisor: data.supervisor,
@@ -89,6 +116,14 @@ const teamSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(addIdea.fulfilled, (state, action) => {
+        state.isLoading = false;
+      });
+
+    builder
+      .addCase(updateIdeaStatus.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(updateIdeaStatus.fulfilled, (state, action) => {
         state.isLoading = false;
       });
   },

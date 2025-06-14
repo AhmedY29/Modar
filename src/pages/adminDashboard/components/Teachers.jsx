@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import TeacherInfo from "../../home/components/ideas/TeacherInfo";
 import IdeasCard from "../../home/components/ideas/IdeasCard";
 import Dialog from "../../../components/Dialog";
-import { addTeacher, getUsers } from "../../../redux/authSlice";
+import { addTeacher, deleteMember, getUsers } from "../../../redux/authSlice";
 import { addTeam, deleteTeam, getTeams } from "../../../redux/teamSlice";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -13,24 +13,23 @@ import { useTranslation } from "react-i18next";
 // React Icon
 import { IoAdd } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
+import { TbLoader2 } from "react-icons/tb";
 
 function Teachers() {
   const theme = useSelector((state) => state.theme.theme);
   const users = useSelector((state) => state.auth.users);
   const teams = useSelector((state) => state.team.teams);
-  const isLoading = useSelector((state) => state.team.isLoading);
+  const isLoading = useSelector((state) => state.auth.isLoading);
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [teacherId, setTeacherId] = useState(false);
   const { t } = useTranslation();
   const [formDate, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
-  });
-  const [formTeam, setFormTeam] = useState({
-    supervisor: "",
-    students: [],
   });
 
   useEffect(() => {
@@ -67,6 +66,21 @@ function Teachers() {
     const { name, value } = e.target;
 
     setFormData({ ...formDate, [name]: value });
+  };
+
+  const handleOpenDelete = (id) => {
+    setOpenDeleteDialog(true);
+    setTeacherId(id);
+  };
+  const handleDeleteAction = () => {
+    dispatch(deleteMember(teacherId)).then(() =>
+      setTimeout(() => {
+        toast.success("Delete Successfully");
+        dispatch(getUsers());
+        setTeacherId("");
+        setOpenDeleteDialog(false);
+      }, 1000)
+    );
   };
 
   console.log(isLoading);
@@ -107,47 +121,76 @@ function Teachers() {
           {users.filter((user) => user.role == "teacher").length == 0 ? (
             <div className="text-center">There is No Teachers yet</div>
           ) : (
-            <div className="ideas-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-              {users
-                .filter((user) => user.role == "teacher")
-                .map((teacher) => (
-                  <div
-                    className={`flex flex-col gap-5 bg-zinc-300/50 dark:bg-gray-800 dark:text-white rounded-xl p-4 ${
-                      theme == "dark" ? "dark" : ""
-                    } `}
-                  >
-                    <div className="cat flex justify-between">
-                      <h1 className="bg-blue-400 text-blue-900 p-1 px-2 font-light rounded-xl uppercase">
-                        supervisor by{" "}
-                        {
-                          teams.filter(
-                            (team) => team.supervisor == teacher.username
-                          ).length
-                        }
-                      </h1>
-                      <h1>{teacher.username}</h1>
-                    </div>
-                    <div className="flex justify-between">
-                      <div className="status w-fit">
-                        <button className="flex items-center bg-red-400 text-red-900 p-1 px-2 cursor-pointer font-light rounded-xl">
-                          <span>{t("Delete")}</span>{" "}
-                          <MdDeleteOutline fontSize={20} />
-                        </button>
-                      </div>
-                      <div className="details">
-                        <button
-                          className={`bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white ${
-                            theme == "dark" ? "dark" : ""
-                          } rounded-xl cursor-pointer transition-all duration-200`}
-                        >
-                          {t("Details")}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-            </div>
+            // <div className="ideas-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            //   {users
+            //     .filter((user) => user.role == "teacher")
+            //     .map((teacher) => (
+            //       <div
+            //         className={`flex flex-col gap-5 bg-zinc-300/50 dark:bg-gray-800 dark:text-white rounded-xl p-4 ${
+            //           theme == "dark" ? "dark" : ""
+            //         } `}
+            //       >
+            //         <div className="cat flex justify-between">
+            //           <h1 className="bg-blue-400 text-blue-900 p-1 px-2 font-light rounded-xl uppercase">
+            //             supervisor by{" "}
+            //             {
+            //               teams.filter(
+            //                 (team) => team.supervisor == teacher.username
+            //               ).length
+            //             }
+            //           </h1>
+            //           <h1>{teacher.username}</h1>
+            //         </div>
+            //         <div className="flex justify-between">
+            //           <div className="status w-fit">
+            //             <button className="flex items-center bg-red-400 text-red-900 p-1 px-2 cursor-pointer font-light rounded-xl">
+            //               <span>{t("Delete")}</span>{" "}
+            //               <MdDeleteOutline fontSize={20} />
+            //             </button>
+            //           </div>
+            //           <div className="details">
+            //             <button
+            //               className={`bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white ${
+            //                 theme == "dark" ? "dark" : ""
+            //               } rounded-xl cursor-pointer transition-all duration-200`}
+            //             >
+            //               {t("Details")}
+            //             </button>
+            //           </div>
+            //         </div>
+            //       </div>
+            //     ))}
+            // </div>
+            ""
           )}
+
+          <table class="border-separate border border-gray-400 w-full">
+            <thead>
+              <tr>
+                <th class="border border-gray-300 ...">State</th>
+                <th class="border border-gray-300 ...">action</th>
+              </tr>
+            </thead>
+            {users
+              ?.filter((user) => user.role == "teacher")
+              .map((teacher) => (
+                <tbody className="text-center">
+                  <tr>
+                    <td class="border border-gray-300 ...">
+                      {teacher.username}
+                    </td>
+                    <td class="border border-gray-300 ...">
+                      <button
+                        className={`bg-red-500 hover:bg-red-600 px-3 p-2 text-white cursor-pointer rounded-xl transition-all duration-200`}
+                        onClick={() => handleOpenDelete(teacher.id)}
+                      >
+                        {t("Delete")}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              ))}
+          </table>
         </div>
       </div>
       <Dialog
@@ -202,6 +245,30 @@ function Teachers() {
             {t("Register")}
           </button>
         </form>
+      </Dialog>
+
+      <Dialog
+        open={openDeleteDialog}
+        setOpenDialog={setOpenDeleteDialog}
+        title={"Delete"}
+      >
+        <h1 className="font-bold my-4">
+          Are you Sure, Do you wants Delete Teacher
+        </h1>
+        <div className="flex flex-wrap gap-3">
+          <button
+            className="bg-black hover:bg-[#333] px-3 p-2 text-white cursor-pointer rounded-xl transition-all duration-200"
+            onClick={handleDeleteAction}
+          >
+            {isLoading ? <TbLoader2 className="animate-spin" /> : "Sure"}
+          </button>
+          <button
+            className="bg-black hover:bg-[#333] px-3 p-2 text-white cursor-pointer rounded-xl transition-all duration-200"
+            onClick={() => setOpenDeleteDialog(false)}
+          >
+            Cancel
+          </button>
+        </div>
       </Dialog>
     </section>
   );

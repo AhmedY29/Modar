@@ -44,7 +44,10 @@
     "Profile": "الملف الشخصي",
 
     "Supervisor Name": "اسم المشرف",
+    "Select Team": "اختر الفريق",
+    "Team": "فريق",
     "Team Member count": "عدد اعضاء الفريق",
+    "Author Name": "صاحب الفكرة",
     "Add": "أضافة",
     "Select": "اختر",
     "Web App": "تطبيق ويب",
@@ -57,8 +60,8 @@
     "Search": "أبحث عن فكرة",
     "Search Idea": "اكتب عنوان الفكرة",
     "Pending": "قيد الانتظار",
-    "Accept": "مقبولة",
-    "rejected": "مرفوضة",
+    "Accepted": "مقبولة",
+    "Rejected": "مرفوضة",
 
     "Delete": "حذف",
     "Details": "التفاصيل",
@@ -69,7 +72,10 @@
     "Add Student": "اضافة طالب",
     "Add Teacher": "اضافة معلم",
     "Team Member": "اعضاء الفريق",
-    "Team Count": "عدد اعضاء الفريق"
+    "Team Count": "عدد اعضاء الفريق",
+    "admin": "مسؤول النظام",
+    "teacher": "معلم",
+    "student":"طالب"
 
 
     

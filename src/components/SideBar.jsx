@@ -25,7 +25,7 @@ function SideBar(props) {
     <aside
       className={`hidden lg:block h-screen sticky top-0 ${
         props.lng == "ar" ? "rounded-l-4xl" : "rounded-r-4xl"
-      } pt-3 bg-amber-300 dark:bg-gray-900/60 w-[12rem] ${
+      } pt-3 bg-amber-300 dark:bg-amber-300 w-[12rem] ${
         theme == "dark" ? "dark" : ""
       }`}
     >
@@ -48,7 +48,7 @@ function SideBar(props) {
                     ? "rounded-l-xl bg-black"
                     : "rounded-r-xl bg-black"
                   : "bg-black/60"
-              }  hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
+              }  hover:bg-[#333] p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
                 theme == "dark" ? "dark" : ""
               }`}
             >
@@ -62,7 +62,7 @@ function SideBar(props) {
                     ? "rounded-l-xl bg-black"
                     : "rounded-r-xl bg-black"
                   : "bg-black/60"
-              } hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
+              } hover:bg-[#333] p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
                 theme == "dark" ? "dark" : ""
               }`}
             >
@@ -76,7 +76,7 @@ function SideBar(props) {
                     ? "rounded-l-xl bg-black"
                     : "rounded-r-xl bg-black"
                   : "bg-black/60"
-              } hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
+              } hover:bg-[#333] p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
                 theme == "dark" ? "dark" : ""
               }`}
             >
@@ -90,7 +90,7 @@ function SideBar(props) {
                     ? "rounded-l-xl bg-black"
                     : "rounded-r-xl bg-black"
                   : "bg-black/60"
-              } hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
+              } hover:bg-[#333] p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
                 theme == "dark" ? "dark" : ""
               }`}
             >
@@ -104,7 +104,7 @@ function SideBar(props) {
                     ? "rounded-l-xl bg-black"
                     : "rounded-r-xl bg-black"
                   : "bg-black/60"
-              } hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
+              } hover:bg-[#333] p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
                 theme == "dark" ? "dark" : ""
               }`}
             >
@@ -121,7 +121,7 @@ function SideBar(props) {
                     ? "rounded-l-xl bg-black"
                     : "rounded-r-xl bg-black"
                   : "bg-black/60"
-              } hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
+              } hover:bg-[#333] p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
                 theme == "dark" ? "dark" : ""
               }`}
             >
@@ -135,7 +135,7 @@ function SideBar(props) {
                     ? "rounded-l-xl bg-black"
                     : "rounded-r-xl bg-black"
                   : "bg-black/60"
-              } hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
+              } hover:bg-[#333] p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
                 theme == "dark" ? "dark" : ""
               }`}
             >
@@ -149,7 +149,7 @@ function SideBar(props) {
                     ? "rounded-l-xl bg-black"
                     : "rounded-r-xl bg-black"
                   : "bg-black/60"
-              } hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
+              } hover:bg-[#333] p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
                 theme == "dark" ? "dark" : ""
               }`}
             >
@@ -166,7 +166,7 @@ function SideBar(props) {
                 ? "rounded-l-xl bg-black"
                 : "rounded-r-xl bg-black"
               : "bg-black/60"
-          } hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
+          } hover:bg-[#333] p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
             theme == "dark" ? "dark" : ""
           }`}
         >
@@ -176,7 +176,7 @@ function SideBar(props) {
           onClick={() => {
             dispatch(logout()), navigate("/");
           }}
-          className={`bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
+          className={`bg-black hover:bg-[#333] p-2 px-3 text-white cursor-pointer transition-all duration-200 ${
             theme == "dark" ? "dark" : ""
           }`}
         >
@@ -185,13 +185,13 @@ function SideBar(props) {
         <div className="flex justify-center gap-3">
           <button
             onClick={() => handleChangeLan(props.lng == "ar" ? "en" : "ar")}
-            className="bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white rounded-xl cursor-pointer transition-all duration-200"
+            className="bg-black hover:bg-[#333] p-2 px-3 text-white rounded-xl cursor-pointer transition-all duration-200"
           >
             {props.lng == "ar" ? "En" : "Ar"}
           </button>
           <button
             onClick={() => dispatch(changeTheme())}
-            className="bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white rounded-xl cursor-pointer transition-all duration-200"
+            className="bg-black hover:bg-[#333] p-2 px-3 text-white rounded-xl cursor-pointer transition-all duration-200"
           >
             {theme == "dark" ? <LuSunMedium /> : <FaRegMoon />}
           </button>

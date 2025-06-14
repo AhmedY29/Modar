@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Navigate } from "react-router";
 
 const initialState = {
   user: JSON.parse(localStorage.getItem("memberInfo")) || "",
@@ -39,6 +38,15 @@ export const addTeacher = createAsyncThunk("auth/addTeacher", async (data) => {
     }
   );
 });
+export const deleteMember = createAsyncThunk(
+  "auth/deleteMember",
+  async (id) => {
+    console.log(id);
+    let res = await axios.delete(
+      `https://68457ab9fc51878754db71db.mockapi.io/users/${id}`
+    );
+  }
+);
 
 export const login = createAsyncThunk("auth/login", async (data) => {
   return data;
@@ -83,6 +91,14 @@ export const authSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(addTeacher.rejected, (state) => {
+        state.isLoading = false;
+      });
+
+    builder
+      .addCase(deleteMember.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteMember.fulfilled, (state, action) => {
         state.isLoading = false;
       });
 

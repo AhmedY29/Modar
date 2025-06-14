@@ -9,6 +9,7 @@ import { IoAdd } from "react-icons/io5";
 import { addIdea, getTeams } from "../../../redux/teamSlice";
 import Dialog from "../../../components/Dialog";
 import toast from "react-hot-toast";
+import { v4 as uuidv4 } from "uuid";
 
 // React Icon
 
@@ -20,14 +21,18 @@ function Ideas() {
   const teams = useSelector((state) => state.team.teams);
   const isLoading = useSelector((state) => state.team.isLoading);
   const [openDialog, setOpenDialog] = useState(false);
+  const [teamId, setTeamId] = useState(0);
   const [myTeam, setMyTeam] = useState({});
   const [ideaData, setIdeaData] = useState({
+    ideaId: uuidv4(),
+    authorName: user?.username,
     teamId: "",
     ideaTitle: "",
     ideaDesc: "",
     category: "",
     status: "Pending",
   });
+  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const { t } = useTranslation();
   useEffect(() => {
@@ -39,7 +44,15 @@ function Ideas() {
         teams.find((team) => team.supervisor == user.username)
     );
   }, [teams]);
+  useEffect(() => {
+    if (user.role == "teacher") {
+      setMyTeam(
+        teams.filter((team) => team.supervisor == user.username)[teamId]
+      );
+    }
+  }, [user, teams, teamId]);
 
+  console.log(teams.filter((team) => team.supervisor == user.username));
   console.log(
     teams.find((team) => team.students?.includes(user.username)),
     "ss"
@@ -55,6 +68,7 @@ function Ideas() {
         setOpenDialog(false);
         setIdeaData({
           teamId: "",
+          ideaId: "",
           ideaTitle: "",
           ideaDesc: "",
           category: "",
@@ -64,9 +78,10 @@ function Ideas() {
       }, 1000)
     );
   };
+
   return (
     <section
-      className={`flex flex-col gap-5 w-full bg-gray-200/60 dark:bg-slate-900/60 mx-5 rounded-xl p-10 ${
+      className={`flex flex-col gap-5 w-full bg-gray-200/50 dark:bg-slate-900/60 mx-5 rounded-xl p-10 ${
         theme == "dark" ? "dark" : ""
       }`}
     >
@@ -76,21 +91,45 @@ function Ideas() {
           students={myTeam?.students}
         />
       </div>
-      <div className="ideas-content">
-        {user.role == "teacher" ? (
-          <div
-            className={`flex w-full bg-white/40 dark:bg-white/50 p-2 rounded-xl ${
-              theme == "dark" ? "dark" : ""
-            }`}
-          >
-            <div className="w-full">
-              <FormGroup
-                label={"Search"}
-                type={"text"}
-                placeholder={"Search Idea"}
-              />
+      <div className="ideas-content p-2 bg-white/40 rounded-xl">
+        {user?.role == "teacher" ? (
+          <>
+            <div className="flex flex-col">
+              <label htmlFor="teams">{t("Select Team")}</label>
+              <select
+                className="border rounded-xl p-1 px-2"
+                onChange={(e) => setTeamId(e.target.value)}
+                name="teams"
+                id=""
+              >
+                {teams
+                  ?.filter((team) => team.supervisor == user.username)
+                  ?.map((team, index) => (
+                    <option value={index}>
+                      {t("Team")}
+                      {team.students.map((e) => (
+                        <h1 className="flex gap-2"> {e} </h1>
+                      ))}
+                    </option>
+                  ))}
+              </select>
             </div>
-          </div>
+            <div
+              className={`flex w-full rounded-xl ${
+                theme == "dark" ? "dark" : ""
+              }`}
+            >
+              <div className="w-full">
+                <FormGroup
+                  label={"Search"}
+                  type={"text"}
+                  placeholder={"Search Idea"}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+            </div>
+          </>
         ) : (
           // <div
           //   className={`flex w-full bg-white/40 dark:bg-white/50 p-2 rounded-xl ${
@@ -112,7 +151,7 @@ function Ideas() {
           //       placeholder="اكتب وصف للفكرة..."
           //     ></textarea>
           //     <button
-          //       className={`bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 px-10 p-4 text-white cursor-pointer ${
+          //       className={`bg-black hover:bg-[#333] px-10 p-4 text-white cursor-pointer ${
           //         theme == "dark" ? "dark" : ""
           //       } rounded-xl transition-all duration-200 w-full `}
           //     >
@@ -127,26 +166,42 @@ function Ideas() {
         <div className="ideas bg-white/40 p-2 rounded-xl">
           <div className="flex justify-between mb-2">
             <h1 className="text-2xl">{t("Ideas")}</h1>
-            <button
-              onClick={() => setOpenDialog(true)}
-              className={`flex items-center gap-2 bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 px-10 p-1 text-white cursor-pointer ${
-                theme == "dark" ? "dark" : ""
-              } rounded-xl transition-all duration-200 `}
-            >
-              <IoAdd />
-              <span>{t("Add Idea")}</span>
-            </button>
+            {user.role != "teacher" ? (
+              <button
+                onClick={() => setOpenDialog(true)}
+                className={`flex items-center gap-2 bg-black hover:bg-[#333] px-10 p-1 text-white cursor-pointer ${
+                  theme == "dark" ? "dark" : ""
+                } rounded-xl transition-all duration-200 `}
+              >
+                <IoAdd />
+                <span>{t("Add Idea")}</span>
+              </button>
+            ) : (
+              ""
+            )}
           </div>
           <div className="ideas-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            {myTeam?.ideas?.map((idea, index) => (
-              <IdeasCard
-                key={index}
-                ideaTitle={idea.ideaTitle}
-                ideaDesc={idea.ideaDesc}
-                category={idea.category}
-                status={idea.status}
-              />
-            ))}
+            {myTeam?.ideas?.length == 0 ? (
+              <div className="">
+                <h1>There is No Ideas yet</h1>
+              </div>
+            ) : (
+              myTeam?.ideas
+                ?.filter((idea) => idea.ideaTitle.includes(search))
+                .map((idea) => (
+                  <IdeasCard
+                    key={idea.ideaId}
+                    id={idea.ideaId}
+                    teamId={myTeam.id}
+                    ideaTitle={idea.ideaTitle}
+                    rejectedReason={idea.rejectedReason}
+                    authorName={idea.authorName}
+                    ideaDesc={idea.ideaDesc}
+                    category={idea.category}
+                    status={idea.status}
+                  />
+                ))
+            )}
           </div>
         </div>
       </div>
@@ -193,7 +248,7 @@ function Ideas() {
             </select>
           </div>
           <button
-            className={`flex items-center justify-center bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 px-10 p-4 text-white cursor-pointer ${
+            className={`flex items-center justify-center bg-black hover:bg-[#333] px-10 p-4 text-white cursor-pointer ${
               theme == "dark" ? "dark" : ""
             } rounded-xl transition-all duration-200 w-full `}
           >
