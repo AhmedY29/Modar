@@ -77,7 +77,10 @@ function MobileTopNav(props) {
           {user ? (
             <div className="relative">
               <div>
-                <h1 className="cursor-pointer line-clamp-1">
+                <h1
+                  onClick={() => (user.role == "admin" ? setOpen(!open) : "")}
+                  className="cursor-pointer line-clamp-1"
+                >
                   {t("Welcome")}, {user.username} 👋🏻
                 </h1>
               </div>
@@ -87,12 +90,6 @@ function MobileTopNav(props) {
                 } flex-col items-center gap-3 w-full rounded-md overflow-hidden shadow absolute top-8 bg-amber-200`}
               >
                 <ul className="w-full text-center">
-                  <li
-                    onClick={() => dispatch(changeTheme())}
-                    className="flex justify-center bg-black text-white dark:bg-dark-bg hover:bg-[#333] w-full border-b cursor-pointer p-2 px-3 transition-all duration-200"
-                  >
-                    {theme == "dark" ? <LuSunMedium /> : <FaRegMoon />}
-                  </li>
                   <li
                     className="bg-black text-white hover:bg-[#333] w-full border-b cursor-pointer p-2 px-3 transition-all duration-200"
                     onClick={() => {
