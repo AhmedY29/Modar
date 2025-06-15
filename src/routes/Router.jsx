@@ -26,6 +26,8 @@ import Profile from "../pages/profile/Profile";
 import TeamMember from "../pages/home/components/TeamMember";
 import MobileNav from "../components/MobileNav";
 import MobileTopNav from "../components/MobileTopNav";
+import AdminIdeas from "../pages/adminDashboard/components/AdminIdeas";
+import Footer from "../components/Footer";
 
 const Layout = () => {
   const { t, i18n } = useTranslation();
@@ -41,6 +43,7 @@ const Layout = () => {
     <div className="font-rubik">
       <Navbar changeLanguage={changeLanguage} lng={lng} />
       <Outlet />
+      <Footer />
     </div>
   );
 };
@@ -109,13 +112,14 @@ const ProtectAdminPages = ({ children }) => {
 };
 
 const ErrorPage = () => {
+  const { t } = useTranslation();
   return (
-    <div className="flex flex-col justify-center items-center h-screen w-screen">
-      <h1>Page Not Found!</h1>
-      <p>We Will Redirect You to home</p>
+    <div className="flex flex-col gap-4 justify-center items-center h-screen w-screen">
+      <h1>{t("Page Not Found")}!</h1>
+      <p>{t("We Will Redirect You to home")}</p>
       <Link to={"/"}>
         <button className="bg-black hover:bg-[#333] w-fit p-2 px-3 rounded-xl text-white cursor-pointer transition-all duration-200">
-          Click Hero
+          {t("Click Here")}
         </button>
       </Link>
     </div>
@@ -158,6 +162,7 @@ const router = createBrowserRouter([
       { path: "/admin_dashboard_modar_2977/teams", element: <Teams /> },
       { path: "/admin_dashboard_modar_2977/teachers", element: <Teachers /> },
       { path: "/admin_dashboard_modar_2977/students", element: <Students /> },
+      { path: "/admin_dashboard_modar_2977/ideas", element: <AdminIdeas /> },
       { path: "/admin_dashboard_modar_2977/profile", element: <Profile /> },
     ],
   },

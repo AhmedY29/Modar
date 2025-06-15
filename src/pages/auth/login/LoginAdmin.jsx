@@ -54,7 +54,7 @@ function LoginAdmin() {
 
     toast.success(t("Login successfully"));
     dispatch(login(userExist));
-    navigate("/admin_dashboard_modar_2977");
+    navigate("/admin_dashboard_modar_2977/info");
   };
 
   return (

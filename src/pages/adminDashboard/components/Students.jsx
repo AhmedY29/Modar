@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 // React Icon
 import { IoAdd } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
+import Loader from "../../../components/Loader";
 
 function Students() {
   const theme = useSelector((state) => state.theme.theme);
@@ -21,16 +22,13 @@ function Students() {
   const [openDialog, setOpenDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [teacherId, setTeacherId] = useState(false);
+  const [search, setSearch] = useState("");
   const { t } = useTranslation();
   const [formDate, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
-  });
-  const [formTeam, setFormTeam] = useState({
-    supervisor: "",
-    students: [],
   });
 
   useEffect(() => {
@@ -40,7 +38,8 @@ function Students() {
   console.log(teams, "teams");
   // TODO: Make Title For Page
   let lng = Cookies.get("i18next") || "ar";
-  window.document.title = lng == "ar" ? "مُدار | المحموعات" : "Modar | Teams";
+  window.document.title =
+    lng == "ar" ? "مُدار - المشرفين | الطلاب" : "Modar - Admin | Students";
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -87,7 +86,7 @@ function Students() {
   console.log(isLoading);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   return (
     <section
@@ -119,78 +118,56 @@ function Students() {
               <span>{t("Add Student")}</span>
             </button>
           </div>
+          <div className="w-full mb-2">
+            <FormGroup
+              label={"Search Student"}
+              type={"text"}
+              placeholder={"Search Student"}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
           {users.filter((user) => user.role == "student").length == 0 ? (
             <div className="text-center">There is No Students yet</div>
           ) : (
-            // <div className="ideas-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            //   {users
-            //     .filter((user) => user.role == "student")
-            //     .map((student) => (
-            //       <div
-            //         className={`flex flex-col gap-5 bg-zinc-300/50 dark:bg-gray-800 dark:text-white rounded-xl p-4 ${
-            //           theme == "dark" ? "dark" : ""
-            //         } `}
-            //       >
-            //         <div className="cat flex justify-between">
-            //           <h1 className="bg-blue-400 text-blue-900 p-1 px-2 font-light rounded-xl uppercase">
-            //             supervisor by{" "}
-            //             {
-            //               teams.filter(
-            //                 (team) => team.supervisor == student.username
-            //               ).length
-            //             }
-            //           </h1>
-            //           <h1>{student.username}</h1>
-            //         </div>
-            //         <div className="flex justify-between">
-            //           <div className="status w-fit">
-            //             <button className="flex items-center bg-red-400 text-red-900 p-1 px-2 cursor-pointer font-light rounded-xl">
-            //               <span>{t("Delete")}</span>{" "}
-            //               <MdDeleteOutline fontSize={20} />
-            //             </button>
-            //           </div>
-            //           <div className="details">
-            //             <button
-            //               className={`bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white ${
-            //                 theme == "dark" ? "dark" : ""
-            //               } rounded-xl cursor-pointer transition-all duration-200`}
-            //             >
-            //               {t("Details")}
-            //             </button>
-            //           </div>
-            //         </div>
-            //       </div>
-            //     ))}
-            // </div>
-            ""
+            <table class="border-separate border border-gray-400 w-full">
+              <thead>
+                <tr>
+                  <th class="border border-gray-300 ...">{t("Name")}</th>
+                  <th class="border border-gray-300 ...">{t("Email")}</th>
+                  <th class="border border-gray-300 ...">{t("Actions")}</th>
+                </tr>
+              </thead>
+              {users
+                ?.filter((user) => user.role == "student")
+                ?.filter((user) => user.username.includes(search))
+                .map((student) => (
+                  <tbody className="text-center">
+                    <tr>
+                      <td class="border border-gray-300 ...">
+                        {student.username}
+                      </td>
+                      <td class="border border-gray-300 ...">
+                        <a
+                          className="underline"
+                          href={`mailto:${student.email}`}
+                        >
+                          {student.email}
+                        </a>
+                      </td>
+                      <td class="border border-gray-300 ...">
+                        <button
+                          className={`bg-red-500 hover:bg-red-600 px-3 p-2 text-white cursor-pointer rounded-xl transition-all duration-200`}
+                          onClick={() => handleOpenDelete(student.id)}
+                        >
+                          {t("Delete")}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                ))}
+            </table>
           )}
-          <table class="border-separate border border-gray-400 w-full">
-            <thead>
-              <tr>
-                <th class="border border-gray-300 ...">State</th>
-                <th class="border border-gray-300 ...">action</th>
-              </tr>
-            </thead>
-            {users
-              ?.filter((user) => user.role == "student")
-              .map((student) => (
-                <tbody className="text-center">
-                  <tr>
-                    <td class="border border-gray-300 ...">
-                      {student.username}
-                    </td>
-                    <td class="border border-gray-300 ...">
-                      <button
-                        className={`bg-red-500 hover:bg-red-600 px-3 p-2 text-white cursor-pointer rounded-xl transition-all duration-200`}
-                        onClick={() => handleOpenDelete(student.id)}
-                      >
-                        {t("Delete")}
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              ))}
-          </table>
         </div>
       </div>
       <Dialog

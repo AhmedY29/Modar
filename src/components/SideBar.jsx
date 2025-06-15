@@ -29,7 +29,7 @@ function SideBar(props) {
         theme == "dark" ? "dark" : ""
       }`}
     >
-      <Link to={"/home"}>
+      <Link to={"/home/ideas"}>
         <div className="logo flex justify-center">
           <img src={"/logo.png"} width={100} alt="s" />
         </div>
@@ -127,7 +127,7 @@ function SideBar(props) {
             >
               {t("Ideas")}
             </button>
-            <button
+            {/* <button
               onClick={() => navigate("project")}
               className={`${
                 window.top.location.pathname.includes("project")
@@ -140,7 +140,7 @@ function SideBar(props) {
               }`}
             >
               {t("Task Management")}
-            </button>
+            </button> */}
             <button
               onClick={() => navigate("team-member")}
               className={`${

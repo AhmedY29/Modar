@@ -22,6 +22,7 @@ function Login() {
 
   const users = useSelector((state) => state.auth.users);
   const user = useSelector((state) => state.auth.user);
+  const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -40,7 +41,8 @@ function Login() {
     e.preventDefault();
     let userExist = users.find(
       (user) =>
-        user.email == formDate.email && user.password == formDate.password
+        user.email == formDate.email.toLowerCase() &&
+        user.password == formDate.password
     );
 
     if (!userExist) {
@@ -50,6 +52,7 @@ function Login() {
 
     if (userExist.role == "admin") {
       navigate("/auth/login_admin_modar_2977");
+      toast.success(t("This is Admin Login Page"));
       return;
     }
 
@@ -63,7 +66,9 @@ function Login() {
       <div className="login-content flex justify-center w-[80%]">
         <form
           onSubmit={handleLogin}
-          className="flex flex-col gap-5 bg-white/40 rounded-2xl p-5 w-[30rem]  "
+          className={`flex flex-col gap-5 bg-white/40 dark:bg-gray-900/80 dark:text-white backdrop-blur-2xl rounded-2xl p-5 w-[30rem] ${
+            theme == "dark" ? "dark" : ""
+          } `}
         >
           <div className="text-center border-b">
             <h1 className="text-3xl font-faseh">{t("Welcome Again")}</h1>

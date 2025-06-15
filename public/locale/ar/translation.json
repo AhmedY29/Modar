@@ -5,7 +5,7 @@
     "About":"من نحن",
     "How": "طريقة العمل",
 
-    "Hero headline":"فكرتك جاهزة؟ خلها مُــدار",
+    "Hero headline":"فكرتك جاهزة؟ خلك مُــدار",
     "Hero subtitle":"مُدار هو المكان اللي ترفع فيه فكرتك، تعرف رأي مشرفك، وتشوف كل شي بوضوح.",
 
     "Welcome Again": "مرحبًا من جديد",
@@ -33,6 +33,13 @@
     "Logout": "تسجيل خروج",
 
     "Welcome": "مرحبًا",
+    "Modar Data": "احصائيات مُـدار",
+    "Users": "مستخدمين مُـدار",
+    
+    "Work Environment": "بيئة العمل",
+    "You Don't have Supervisor yet": "ليس لديك مشرف بعد",
+
+    "This is Admin Login Page": "هذه هي صفحة دخول المشرفين",
 
     "General":"معلومات عامة",
     "Teachers": "المعلمين",
@@ -43,7 +50,7 @@
     "Team Members": "اعضاء الفريق",
     "Profile": "الملف الشخصي",
 
-    "Supervisor Name": "اسم المشرف",
+    "Supervisor": "المشرف",
     "Select Team": "اختر الفريق",
     "Team": "فريق",
     "Team Member count": "عدد اعضاء الفريق",
@@ -59,13 +66,20 @@
     "Enter Description Idea": "أدخل وصف الفكرة...",
     "Search": "أبحث عن فكرة",
     "Search Idea": "اكتب عنوان الفكرة",
+    "Search Teachers": "ابحث عن معلم",
+    "Search Student": "ابحث عن طالب",
+    "Name": "الاسم",
+    "Actions": "الإجراء",
     "Pending": "قيد الانتظار",
     "Accepted": "مقبولة",
     "Rejected": "مرفوضة",
+    "Rejected Reason": "سبب الرفض",
+    "Enter Reject Reason": "ادخل سبب الرفض",
+    "Send": "ارسال",
 
     "Delete": "حذف",
     "Details": "التفاصيل",
-    "Teams Count": "عدد المعلمين الحالي",
+    "Teams Count": "عدد المجموعات الحالي",
     "Teachers Count": "عدد المعلمين الحالي",
     "Students Count": "عدد الطلاب الحالي",
     "Add Team": "اضافة مجموعة",
@@ -75,7 +89,15 @@
     "Team Count": "عدد اعضاء الفريق",
     "admin": "مسؤول النظام",
     "teacher": "معلم",
-    "student":"طالب"
+    "student":"طالب",
+    "Loading":"جاري التحميل",
+    
+    "Page Not Found":"الصفحة غير موجودة",
+    "We Will Redirect You to home":"اضغط لـ يتم اعادة توجيهك للصفجة الرئيسية",
+    "Click Here":"اضغط هنا",
+
+    "Made By":"صنع بواسطة",
+    "Ahmed Alsaleh": "أحـمد الصـالح"
 
 
     

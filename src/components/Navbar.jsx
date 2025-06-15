@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 import { getUsers, logout } from "../redux/authSlice";
 import { changeTheme } from "../redux/themeSlice";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 // React Icon
 import { LuSunMedium } from "react-icons/lu";
@@ -21,6 +23,11 @@ function Navbar(props) {
   useEffect(() => {
     dispatch(getUsers());
   }, []);
+  useEffect(() => {
+    AOS.init({
+      duration: 1200,
+    });
+  }, []);
   console.log(users, "users");
   console.log(user, "user");
 
@@ -28,9 +35,12 @@ function Navbar(props) {
     props.changeLanguage(lng);
   };
   return (
-    <nav className="nav-section sticky top-0 w-full flex justify-center bg-linear-to-b from-white/80 to-white/30 backdrop-blur-lg pb-2 z-10">
+    <nav
+      data-aos={"fade-down"}
+      className="nav-section sticky top-0 w-full flex justify-center bg-linear-to-b from-white/80 to-white/30 backdrop-blur-lg pb-2 z-10"
+    >
       <div className="nav-content flex items-center justify-between w-[95%]">
-        <Link to={user ? "/home" : "/"}>
+        <Link to={user ? "/home/ideas" : "/"}>
           <div className="logo">
             <img src={"/logo.png"} width={100} alt="s" />
           </div>
@@ -83,12 +93,9 @@ function Navbar(props) {
                 <ul className="w-full text-center">
                   <li
                     onClick={() => dispatch(changeTheme())}
-                    className="bg-black text-white dark:bg-dark-bg hover:bg-[#333] w-full border-b cursor-pointer p-2 px-3 transition-all duration-200"
+                    className="flex justify-center bg-black text-white dark:bg-dark-bg hover:bg-[#333] w-full border-b cursor-pointer p-2 px-3 transition-all duration-200"
                   >
                     {theme == "dark" ? <LuSunMedium /> : <FaRegMoon />}
-                  </li>
-                  <li className="bg-black text-white hover:bg-[#333] w-full border-b cursor-pointer p-2 px-3 transition-all duration-200">
-                    Profile
                   </li>
                   <li
                     className="bg-black text-white hover:bg-[#333] w-full border-b cursor-pointer p-2 px-3 transition-all duration-200"
@@ -106,7 +113,7 @@ function Navbar(props) {
             <>
               <button
                 onClick={() => dispatch(changeTheme())}
-                className="bg-black hover:bg-[#333] w-fit p-2 px-3 rounded-xl text-white cursor-pointer transition-all duration-200"
+                className="bg-black hover:bg-[#333] w-10 h-10 p-2 px-3 rounded-xl text-white cursor-pointer transition-all duration-200"
               >
                 {theme == "dark" ? <LuSunMedium /> : <FaRegMoon />}
               </button>

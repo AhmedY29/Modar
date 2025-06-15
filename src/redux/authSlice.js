@@ -21,7 +21,7 @@ export const register = createAsyncThunk("auth/register", async (data) => {
     "https://68457ab9fc51878754db71db.mockapi.io/users",
     {
       username: data.username,
-      email: data.email,
+      email: data.email.toLowerCase(),
       password: data.password,
       role: "student",
     }

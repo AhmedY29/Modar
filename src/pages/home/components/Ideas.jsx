@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 // React Icon
 
 import { TbLoader2 } from "react-icons/tb";
+import Loader from "../../../components/Loader";
 
 function Ideas() {
   const theme = useSelector((state) => state.theme.theme);
@@ -79,183 +80,195 @@ function Ideas() {
     );
   };
 
+  if (!user || !teams) {
+    return <Loader />;
+  }
+
   return (
     <section
       className={`flex flex-col gap-5 w-full bg-gray-200/50 dark:bg-slate-900/60 mx-5 rounded-xl p-10 ${
         theme == "dark" ? "dark" : ""
       }`}
     >
-      <div className="w">
-        <TeacherInfo
-          supervisor={myTeam?.supervisor}
-          students={myTeam?.students}
-        />
-      </div>
-      <div className="ideas-content p-2 bg-white/40 rounded-xl">
-        {user?.role == "teacher" ? (
-          <>
-            <div className="flex flex-col">
-              <label htmlFor="teams">{t("Select Team")}</label>
-              <select
-                className="border rounded-xl p-1 px-2"
-                onChange={(e) => setTeamId(e.target.value)}
-                name="teams"
-                id=""
-              >
-                {teams
-                  ?.filter((team) => team.supervisor == user.username)
-                  ?.map((team, index) => (
-                    <option value={index}>
-                      {t("Team")}
-                      {team.students.map((e) => (
-                        <h1 className="flex gap-2"> {e} </h1>
+      {myTeam ? (
+        <>
+          <div className="w">
+            <TeacherInfo
+              supervisor={myTeam?.supervisor}
+              students={myTeam?.students}
+            />
+          </div>
+          <div className="ideas-content p-2 bg-white/40 rounded-xl">
+            {user?.role == "teacher" ? (
+              <>
+                <div className="flex flex-col">
+                  <label htmlFor="teams">{t("Select Team")}</label>
+                  <select
+                    className="border rounded-xl p-1 px-2"
+                    onChange={(e) => setTeamId(e.target.value)}
+                    name="teams"
+                    id=""
+                  >
+                    {teams
+                      ?.filter((team) => team.supervisor == user.username)
+                      ?.map((team, index) => (
+                        <option value={index}>
+                          {t("Team")}
+                          {team.students.map((e) => (
+                            <h1 className="flex gap-2"> {e} </h1>
+                          ))}
+                        </option>
                       ))}
-                    </option>
-                  ))}
-              </select>
-            </div>
-            <div
-              className={`flex w-full rounded-xl ${
-                theme == "dark" ? "dark" : ""
-              }`}
-            >
-              <div className="w-full">
-                <FormGroup
-                  label={"Search"}
-                  type={"text"}
-                  placeholder={"Search Idea"}
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </div>
-            </div>
-          </>
-        ) : (
-          // <div
-          //   className={`flex w-full bg-white/40 dark:bg-white/50 p-2 rounded-xl ${
-          //     theme == "dark" ? "dark" : ""
-          //   }`}
-          // >
-          //   {/* <div className="w-full">
-          //     <FormGroup
-          //       label={"Idea"}
-          //       type={"text"}
-          //       placeholder={"Enter Your Idea"}
-          //     />
-          //     <label htmlFor="ideaDesc">وصف الفكرة</label>
-          //     <textarea
-          //       name="ideaDesc"
-          //       id="ideaDesc"
-          //       rows={2}
-          //       className="w-full border rounded-xl p-2"
-          //       placeholder="اكتب وصف للفكرة..."
-          //     ></textarea>
-          //     <button
-          //       className={`bg-black hover:bg-[#333] px-10 p-4 text-white cursor-pointer ${
-          //         theme == "dark" ? "dark" : ""
-          //       } rounded-xl transition-all duration-200 w-full `}
-          //     >
-          //       {t("Add")}
-          //     </button>
-          //   </div> */}
-          //   <hr className="my-5" />
-          // </div>
-          ""
-        )}
-
-        <div className="ideas bg-white/40 p-2 rounded-xl">
-          <div className="flex justify-between mb-2">
-            <h1 className="text-2xl">{t("Ideas")}</h1>
-            {user.role != "teacher" ? (
-              <button
-                onClick={() => setOpenDialog(true)}
-                className={`flex items-center gap-2 bg-black hover:bg-[#333] px-10 p-1 text-white cursor-pointer ${
-                  theme == "dark" ? "dark" : ""
-                } rounded-xl transition-all duration-200 `}
-              >
-                <IoAdd />
-                <span>{t("Add Idea")}</span>
-              </button>
+                  </select>
+                </div>
+                <div
+                  className={`flex w-full rounded-xl ${
+                    theme == "dark" ? "dark" : ""
+                  }`}
+                >
+                  <div className="w-full">
+                    <FormGroup
+                      label={"Search"}
+                      type={"text"}
+                      placeholder={"Search Idea"}
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </>
             ) : (
+              // <div
+              //   className={`flex w-full bg-white/40 dark:bg-white/50 p-2 rounded-xl ${
+              //     theme == "dark" ? "dark" : ""
+              //   }`}
+              // >
+              //   {/* <div className="w-full">
+              //     <FormGroup
+              //       label={"Idea"}
+              //       type={"text"}
+              //       placeholder={"Enter Your Idea"}
+              //     />
+              //     <label htmlFor="ideaDesc">وصف الفكرة</label>
+              //     <textarea
+              //       name="ideaDesc"
+              //       id="ideaDesc"
+              //       rows={2}
+              //       className="w-full border rounded-xl p-2"
+              //       placeholder="اكتب وصف للفكرة..."
+              //     ></textarea>
+              //     <button
+              //       className={`bg-black hover:bg-[#333] px-10 p-4 text-white cursor-pointer ${
+              //         theme == "dark" ? "dark" : ""
+              //       } rounded-xl transition-all duration-200 w-full `}
+              //     >
+              //       {t("Add")}
+              //     </button>
+              //   </div> */}
+              //   <hr className="my-5" />
+              // </div>
               ""
             )}
-          </div>
-          <div className="ideas-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            {myTeam?.ideas?.length == 0 ? (
-              <div className="">
-                <h1>There is No Ideas yet</h1>
+
+            <div className="ideas bg-white/40 p-2 rounded-xl">
+              <div className="flex justify-between mb-2">
+                <h1 className="text-2xl">{t("Ideas")}</h1>
+                {user.role != "teacher" ? (
+                  <button
+                    onClick={() => setOpenDialog(true)}
+                    className={`flex items-center gap-2 bg-black hover:bg-[#333] px-10 p-1 text-white cursor-pointer ${
+                      theme == "dark" ? "dark" : ""
+                    } rounded-xl transition-all duration-200 `}
+                  >
+                    <IoAdd />
+                    <span>{t("Add Idea")}</span>
+                  </button>
+                ) : (
+                  ""
+                )}
               </div>
-            ) : (
-              myTeam?.ideas
-                ?.filter((idea) => idea.ideaTitle.includes(search))
-                .map((idea) => (
-                  <IdeasCard
-                    key={idea.ideaId}
-                    id={idea.ideaId}
-                    teamId={myTeam.id}
-                    ideaTitle={idea.ideaTitle}
-                    rejectedReason={idea.rejectedReason}
-                    authorName={idea.authorName}
-                    ideaDesc={idea.ideaDesc}
-                    category={idea.category}
-                    status={idea.status}
-                  />
-                ))
-            )}
+              <div className="ideas-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                {myTeam?.ideas?.length == 0 ? (
+                  <div className="">
+                    <h1>There is No Ideas yet</h1>
+                  </div>
+                ) : (
+                  myTeam?.ideas
+                    ?.filter((idea) => idea.ideaTitle.includes(search))
+                    .map((idea) => (
+                      <IdeasCard
+                        key={idea.ideaId}
+                        id={idea.ideaId}
+                        teamId={myTeam.id}
+                        ideaTitle={idea.ideaTitle}
+                        rejectedReason={idea.rejectedReason}
+                        authorName={idea.authorName}
+                        ideaDesc={idea.ideaDesc}
+                        category={idea.category}
+                        status={idea.status}
+                      />
+                    ))
+                )}
+              </div>
+            </div>
           </div>
+          <Dialog open={openDialog} setOpenDialog={setOpenDialog}>
+            <form onSubmit={handleAddIdea} className="w-full">
+              <FormGroup
+                label={"Idea"}
+                type={"text"}
+                placeholder={"Enter Your Idea"}
+                value={ideaData.ideaTitle}
+                onChange={(e) =>
+                  setIdeaData({
+                    ...ideaData,
+                    ideaTitle: e.target.value,
+                    teamId: myTeam.id,
+                  })
+                }
+              />
+              <label htmlFor="ideaDesc">{t("Description Idea")}</label>
+              <textarea
+                name="ideaDesc"
+                id="ideaDesc"
+                rows={2}
+                className="w-full border rounded-xl p-2"
+                value={ideaData.ideaDesc}
+                placeholder={t("Enter Description Idea")}
+                onChange={(e) =>
+                  setIdeaData({ ...ideaData, ideaDesc: e.target.value })
+                }
+              ></textarea>
+              <div className="flex flex-col mb-2">
+                <label htmlFor="category">{t("Category")}</label>
+                <select
+                  className="border p-2 px-3 rounded-xl"
+                  name="category"
+                  id="category"
+                  onChange={(e) =>
+                    setIdeaData({ ...ideaData, category: e.target.value })
+                  }
+                >
+                  <option value="">{t("Select")}</option>
+                  <option value="Web App">{t("Web App")}</option>
+                  <option value="Mobile App">{t("Mobile App")}</option>
+                </select>
+              </div>
+              <button
+                className={`flex items-center justify-center bg-black hover:bg-[#333] px-10 p-4 text-white cursor-pointer ${
+                  theme == "dark" ? "dark" : ""
+                } rounded-xl transition-all duration-200 w-full `}
+              >
+                {isLoading ? <TbLoader2 className="animate-spin" /> : t("Add")}
+              </button>
+            </form>
+          </Dialog>
+        </>
+      ) : (
+        <div className="flex justify-center">
+          <h1>{t("You Don't have Supervisor yet")}</h1>
         </div>
-      </div>
-      <Dialog open={openDialog} setOpenDialog={setOpenDialog}>
-        <form onSubmit={handleAddIdea} className="w-full">
-          <FormGroup
-            label={"Idea"}
-            type={"text"}
-            placeholder={"Enter Your Idea"}
-            value={ideaData.ideaTitle}
-            onChange={(e) =>
-              setIdeaData({
-                ...ideaData,
-                ideaTitle: e.target.value,
-                teamId: myTeam.id,
-              })
-            }
-          />
-          <label htmlFor="ideaDesc">{t("Description Idea")}</label>
-          <textarea
-            name="ideaDesc"
-            id="ideaDesc"
-            rows={2}
-            className="w-full border rounded-xl p-2"
-            value={ideaData.ideaDesc}
-            placeholder={t("Enter Description Idea")}
-            onChange={(e) =>
-              setIdeaData({ ...ideaData, ideaDesc: e.target.value })
-            }
-          ></textarea>
-          <div className="flex flex-col mb-2">
-            <label htmlFor="category">{t("Category")}</label>
-            <select
-              className="border p-2 px-3 rounded-xl"
-              name="category"
-              id="category"
-              onChange={(e) =>
-                setIdeaData({ ...ideaData, category: e.target.value })
-              }
-            >
-              <option value="">{t("Select")}</option>
-              <option value="Web App">{t("Web App")}</option>
-              <option value="Mobile App">{t("Mobile App")}</option>
-            </select>
-          </div>
-          <button
-            className={`flex items-center justify-center bg-black hover:bg-[#333] px-10 p-4 text-white cursor-pointer ${
-              theme == "dark" ? "dark" : ""
-            } rounded-xl transition-all duration-200 w-full `}
-          >
-            {isLoading ? <TbLoader2 className="animate-spin" /> : t("Add")}
-          </button>
-        </form>
-      </Dialog>
+      )}
     </section>
   );
 }

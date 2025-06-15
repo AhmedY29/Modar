@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import toast from "react-hot-toast";
 
 const initialState = {
   teams: [],
@@ -42,8 +41,7 @@ export const updateIdeaStatus = createAsyncThunk(
       `https://68457ab9fc51878754db71db.mockapi.io/teams/${data.teamId}`
     );
 
-    const existingTeam = res.data;
-
+    const existingTeam = await res.data;
     const updatedIdeas = (existingTeam.ideas || []).map((idea) =>
       idea.ideaId === data.ideaId ? data : idea
     );

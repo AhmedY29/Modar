@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { IoAdd } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
 import { useTranslation } from "react-i18next";
+import Loader from "../../../components/Loader";
 
 function Teams() {
   const theme = useSelector((state) => state.theme.theme);
@@ -34,7 +35,8 @@ function Teams() {
   console.log(teams, "teams");
   // TODO: Make Title For Page
   let lng = Cookies.get("i18next") || "ar";
-  window.document.title = lng == "ar" ? "مُدار | المحموعات" : "Modar | Teams";
+  window.document.title =
+    lng == "ar" ? "مُدار - المشرفين | المحموعات" : "Modar - Admin | Teams";
 
   const handleAddTeam = (e) => {
     e.preventDefault();
@@ -57,7 +59,7 @@ function Teams() {
   console.log(isLoading);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   return (
     <section
@@ -79,7 +81,7 @@ function Teams() {
             <h1 className="text-2xl">{t("Teams")}</h1>
             <button
               onClick={() => setOpenDialog(true)}
-              className={`flex items-center gap-2 bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 px-10 p-1 text-white cursor-pointer ${
+              className={`flex items-center gap-2 bg-black hover:bg-[#333] px-10 p-1 text-white cursor-pointer ${
                 theme == "dark" ? "dark" : ""
               } rounded-xl transition-all duration-200 `}
             >
@@ -98,13 +100,15 @@ function Teams() {
                   } `}
                 >
                   <div className="cat flex justify-between">
-                    <h1 className="bg-blue-400 text-blue-900 p-1 px-2 font-light rounded-xl uppercase">
-                      supervisor
+                    <h1 className="flex gap-1 bg-zinc-400 text-black p-1 px-2 font-medium rounded-xl">
+                      <span>{t("Supervisor")}:</span>
+                      <span>
+                        <h1>{team.supervisor}</h1>
+                      </span>
                     </h1>
-                    <h1>{team.supervisor}</h1>
                   </div>
                   <div className="idea">
-                    <h1 className="font-bold">Idea Title</h1>
+                    <h1 className="font-bold">{t("Students")}</h1>
                     {team.students.map((stud) => (
                       <p
                         className={`text-black/60 dark:text-white/60 break-words line-clamp-2 ${
@@ -123,15 +127,6 @@ function Teams() {
                       >
                         <span>{t("Delete")}</span>{" "}
                         <MdDeleteOutline fontSize={20} />
-                      </button>
-                    </div>
-                    <div className="details">
-                      <button
-                        className={`bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 p-2 px-3 text-white ${
-                          theme == "dark" ? "dark" : ""
-                        } rounded-xl cursor-pointer transition-all duration-200`}
-                      >
-                        {t("Details")}
                       </button>
                     </div>
                   </div>
@@ -221,7 +216,7 @@ function Teams() {
           <button
             disabled={formTeam?.students?.length == 0}
             type="submit"
-            className={`flex items-center gap-2 bg-black hover:bg-[#333] dark:bg-cyan-500 dark:hover:bg-cyan-600 px-10 p-1 text-white  ${
+            className={`flex items-center gap-2 bg-black hover:bg-[#333] px-10 p-1 text-white  ${
               formTeam?.students?.length == 0
                 ? "cursor-not-allowed"
                 : "cursor-pointer"

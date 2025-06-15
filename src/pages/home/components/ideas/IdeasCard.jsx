@@ -5,10 +5,13 @@ import Dialog from "../../../../components/Dialog";
 import { getTeams, updateIdeaStatus } from "../../../../redux/teamSlice";
 import toast from "react-hot-toast";
 import FormGroup from "../../../auth/components/FormGroup";
+import { TbLoader2 } from "react-icons/tb";
 
 function IdeasCard(props) {
   const user = useSelector((state) => state.auth.user);
   const theme = useSelector((state) => state.theme.theme);
+  const isLoading = useSelector((state) => state.team.isLoading);
+  const teams = useSelector((state) => state.team.teams);
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
   const [rejectedReason, setRejectedReason] = useState("");
@@ -24,6 +27,7 @@ function IdeasCard(props) {
         ideaTitle: props.ideaTitle,
         ideaDesc: props.ideaDesc,
         category: props.category,
+        authorName: props.authorName,
         rejectedReason: rejectedReason,
         status: "Rejected",
       })
@@ -43,7 +47,7 @@ function IdeasCard(props) {
         theme == "dark" ? "dark" : ""
       } `}
     >
-      <div className="cat flex justify-between">
+      <div className="cat flex justify-between flex-wrap">
         <h1
           className={`${
             props.category == "Web App"
@@ -55,6 +59,14 @@ function IdeasCard(props) {
         >
           {t(props.category)}
         </h1>
+        {user.role == "admin" ? (
+          <h1>
+            {t("Supervisor")}:{" "}
+            {teams.find((team) => team.id == props.teamId).supervisor}
+          </h1>
+        ) : (
+          ""
+        )}
       </div>
       <div className="idea">
         <h1 className="font-bold">{props.ideaTitle}</h1>
@@ -105,7 +117,7 @@ function IdeasCard(props) {
           </div>
           <div className="">
             <h1 className="font-bold">{t("Description Idea")}</h1>
-            <p className="w-50">{props.ideaDesc}</p>
+            <p className="w-50 break-words">{props.ideaDesc}</p>
           </div>
           <div className="">
             <h1 className="font-bold">{t("Author Name")}</h1>
@@ -120,14 +132,18 @@ function IdeasCard(props) {
             ""
           )}
           {user.role == "admin" || user.role == "teacher" ? (
-            <div className="btns flex justify-center gap-3">
+            <div className="btns flex justify-center gap-3 mt-2">
               <button
                 onClick={() => setOpenRejectedDialog(true)}
                 className={` bg-red-200 text-red-900 hover:bg-red-300 p-2 px-3 rounded-xl cursor-pointer transition-all duration-200 ${
                   theme == "dark" ? "dark" : ""
                 }`}
               >
-                {t("Rejected")}
+                {isLoading ? (
+                  <TbLoader2 className="animate-spin" />
+                ) : (
+                  t("Rejected")
+                )}
               </button>
               <button
                 onClick={() =>
@@ -138,6 +154,7 @@ function IdeasCard(props) {
                       ideaTitle: props.ideaTitle,
                       ideaDesc: props.ideaDesc,
                       category: props.category,
+                      authorName: props.authorName,
                       status: "Accepted",
                     })
                   ).then(() =>
@@ -152,7 +169,11 @@ function IdeasCard(props) {
                   theme == "dark" ? "dark" : ""
                 }`}
               >
-                {t("Accepted")}
+                {isLoading ? (
+                  <TbLoader2 className="animate-spin" />
+                ) : (
+                  t("Accepted")
+                )}
               </button>
             </div>
           ) : (

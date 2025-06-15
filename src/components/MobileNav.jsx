@@ -105,7 +105,7 @@ function MobileNav() {
               <FaRegLightbulb />
               <span className="text-sm">{t("Ideas")}</span>
             </button>
-            <button
+            {/* <button
               onClick={() => navigate("project")}
               className={`${
                 window.top.location.pathname.includes("project")
@@ -115,7 +115,7 @@ function MobileNav() {
             >
               <FaTasks />
               <span className="text-sm">{t("Task Management")}</span>
-            </button>
+            </button> */}
             <button
               onClick={() => navigate("team-member")}
               className={`${

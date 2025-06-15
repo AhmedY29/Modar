@@ -83,7 +83,7 @@ function Register() {
             label={"Email"}
             value={formDate.email}
             onChange={handleChangeInput}
-            placeholder={"Enter Your Email"}
+            placeholder={"example@tuwaiq.com"}
           />
 
           <FormGroup
