@@ -43,7 +43,7 @@ function Profile() {
   }
   return (
     <section
-      className={`flex flex-col gap-5 md:w-full bg-gray-200/60 dark:bg-slate-900/60 md:mx-5 rounded-xl p-10 ${
+      className={`flex flex-col gap-5 w-full bg-gray-200/60 dark:bg-slate-900/60 mx-5 rounded-xl p-10 ${
         theme == "dark" ? "dark" : ""
       }`}
     >
@@ -57,7 +57,7 @@ function Profile() {
               </h1>
               <div className="flex justify-between flex-wrap w-full">
                 <h1 className="">{user.username}</h1>
-                <h1 className="flex items-center gap-2">
+                <h1 className="flex flex-wrap items-center gap-2">
                   <span>{t("Email")}:</span> <span>{user.email}</span>
                 </h1>
               </div>
