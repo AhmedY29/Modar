@@ -10,7 +10,7 @@ function Dialog(props) {
         props.open ? "flex" : ""
       } items-center justify-center bg-black/50 fixed top-0 w-full h-full`}
     >
-      <div className="dialog-content bg-white rounded-xl p-3 min-w-[20rem]">
+      <div className="dialog-content bg-white rounded-xl p-3 min-w-[20rem] max-h-[20rem] lg:max-h-fit overflow-auto">
         <div className="flex justify-between text-2xl">
           <h1>{props.title}</h1>
           <IoCloseCircleOutline
