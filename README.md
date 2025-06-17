@@ -1,13 +1,13 @@
 # For Login as :
 ### Admin:
--- Email: ahmed@admin.com
+- Email: ahmed@admin.com
 
 
 ### Teacher:
--- Email: teacher1@tuwaiq.com
+- Email: teacher1@tuwaiq.com
 
 
 ### Student:
--- Email: student@tuwaiq.com
+- Email: student@tuwaiq.com
 
 ## All Passwords : 12345678
